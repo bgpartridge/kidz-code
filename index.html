@@ -1,7 +1,28 @@
 <html>
 <head>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.min.css">
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/mode/javascript/javascript.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			var title = $("#Title");
+			var code = $("#Code");
+			var editor = CodeMirror.fromTextArea(code[0], {
+			    lineNumbers: true,
+			    mode: "javascript"
+			});
+
+			editor.on("changes", function(instance, changes){
+				title.html(instance.getValue());
+			});
+
+		});
+	</script>
 </head>
 <body>
-	<h1>Hello World</h1>
+	<h1 id="Title">Your Title Goes Here!</h1>
+	<textarea id="Code">Your Title Goes Here!</textarea>
 </body>
 </html>
