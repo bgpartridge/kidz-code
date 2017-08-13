@@ -1,0 +1,53 @@
+<html>
+	<head>
+		<title>Binary Translator, by Hyrum Partridge</title>
+	    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	</head>
+	<body style="background-color: white; text-align: center;">
+		<h1>The Binary Translator</h1>
+		<input id="text">
+		<span id="answer"></span>
+	</body>
+	<script>
+		function padBinary(binaryCode) {
+			var pad = "";
+			for(var i = binaryCode.length; i < 8; i++) {
+				pad += "0";
+			}
+			return pad + binaryCode;
+		}
+
+		$(document).ready(function() {
+			$("#text").keyup(function() {
+				var text = $("#text").val();
+				var binary = "";
+				if (text === "" || text === undefined) {
+					$("#answer").html(binary);
+				} else if (isNaN(text)) {
+					for(var counter = 0; counter < text.length; counter++) {
+						var character = text[counter];
+						var charCode = character.charCodeAt();
+						binary += padBinary(Number(charCode).toString(2)) + " ";
+						$("#answer").html(" => " + binary);
+					}
+				} else {
+					binary = Number(text).toString(2);
+					$("#answer").html(" => " + binary);
+				}
+			});
+		});
+	</script>
+
+</html>
+
+<!--
+1111 1111
+
+0000 0000
+
+0000 0000 => a
+0000 0001 => b
+0000 0010 => c
+
+0000 0010
+-->

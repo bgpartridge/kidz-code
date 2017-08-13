@@ -1,0 +1,63 @@
+<html>
+	<head>
+		<title>The Reminder Calculator, by Hyrum Partridge</title>
+	    <script src="http://code.jquery.com/jquery-2.1.4.min.js"></script>
+	</head>
+	<body style="background-color: aqua; text-align: center;">
+		<h1>The Reminder Calculator</h1>
+		<div style="">
+			<input id="a1" type="number">
+			<select id="s1">
+				<option value="plus">plus</option>
+				<option value="minus">minus</option>
+				<option value="multiply">times</option>
+				<option value="divide">divided by</option>
+			</select>
+			<input id="b1" type="number">
+			<button id="c1">=</button>
+		</div>
+		<svg viewBox="0 0 100 25">
+  			<path style="fill: none; stroke: #FF0000; stroke-linejoin: round;" d="M30,25 A 5 5 0 0 1 70 25" />
+  			<path style="fill: none; stroke: #FF7F00; stroke-linejoin: round;" d="M31,25 A 5 5 0 0 1 69 25" />
+  			<path style="fill: none; stroke: #FFFF00; stroke-linejoin: round;" d="M32,25 A 5 5 0 0 1 68 25" />
+  			<path style="fill: none; stroke: #00FF00; stroke-linejoin: round;" d="M33,25 A 5 5 0 0 1 67 25" />
+  			<path style="fill: none; stroke: #0000FF; stroke-linejoin: round;" d="M34,25 A 5 5 0 0 1 66 25" />
+  			<path style="fill: none; stroke: #4B0082; stroke-linejoin: round;" d="M35,25 A 5 5 0 0 1 65 25" />
+  			<path style="fill: none; stroke: #8F00FF; stroke-linejoin: round;" d="M36,25 A 5 5 0 0 1 64 25" />
+  			<text style="font-size: .3em;" y="24" transform="translate(50)" fill="black"><tspan id="answer" text-anchor="middle"></tspan></text>
+
+		</svg>
+		<svg style="position: relative; left: 22%; margin-top:-12%" viewbox="0 0 500 500">
+  			<path style="fill: white; stroke: black; stroke-width: 2; stroke-linejoin: round;" d='M 25,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10  z' />
+  			<path style="fill: white; stroke: black; stroke-width: 2; stroke-linejoin: round;" d='M 195,60 a 20,20 1 0,0 0,40 h 50 a 20,20 1 0,0 0,-40 a 10,10 1 0,0 -15,-10 a 15,15 1 0,0 -35,10  z' />
+		</svg>
+		<script>
+
+		$(document).ready(function() {
+			$("#c1").click(function() {
+				var op1 = $("#s1").val();
+				calculate(op1);
+			});
+
+			function calculate(operator) {
+				var val1 = $("#a1").val();
+				var val2 = $("#b1").val();
+				var aa11 = 0;
+
+				if(operator == "plus") {
+					aa11 = parseInt(val1) + parseInt(val2);
+				} else if (operator == "minus") {
+					aa11 = parseInt(val1) - parseInt(val2);
+				} else if (operator == "multiply") {
+					aa11 = parseInt(val1) * parseInt(val2);
+				} else if (operator == "divide") {
+					aa11 = parseInt(val1) / parseInt(val2);
+				}
+				$("tspan#answer").text(aa11);
+			}
+
+		});
+
+		</script>
+	</body>
+</html>
