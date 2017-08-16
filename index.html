@@ -1,10 +1,38 @@
 <html>
 <head>
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/codemirror.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.28.0/theme/dracula.min.css">
 	<style>
 		#Container {
 			width: 360px;
 			text-align: center;
+			margin-bottom: 25px;
+		}
+
+		#Save {
+			display: inline-block;
+			float: right;
+			font-size: 20px;
+			padding: 5px 15px;
+			border-radius: 15px;
+			background-color: #3B5998;
+			color: white;
+			margin-top: 15px;
+			cursor: pointer;
+			box-shadow: 0 6px #999;
+			text-decoration: none;
+			border: none;
+			outline: none;
+		}
+
+		#Save:hover {
+			background-color: #1B3978
+		}
+
+		#Save:active {
+			background-color: #1B3978;
+			box-shadow: 0 2px #666;
+			transform: translateY(4px);
 		}
 
 		.calcButton {
@@ -18,6 +46,9 @@
 			cursor: pointer;
 		}
 
+		.CodeMirror {
+			height: 500px;
+		}
 
 	</style>
 
@@ -29,23 +60,56 @@
 			var title = $("#Title");
 			var code = $("#Code");
 			var editor;
+			var buttons = [
+				{"id": "Zero", "function": "Zero"},
+				{"id": "One", "function": "One"},
+				{"id": "Two", "function": "Two"},
+				{"id": "Three", "function": "Three"},
+				{"id": "Four", "function": "Four"},
+				{"id": "Five", "function": "Five"},
+				{"id": "Six", "function": "Six"},
+				{"id": "Seven", "function": "Seven"},
+				{"id": "Eight", "function": "Eight"},
+				{"id": "Nine", "function": "Nine"},
+				{"id": "Add", "function": "Add"},
+				{"id": "Subtract", "function": "Subtract"},
+				{"id": "Multiply", "function": "Multiply"},
+				{"id": "Divide", "function": "Divide"},
+				{"id": "Equals", "function": "Equals"},
+			]
 
 			$.get("calculator.js",  function(data){
           		$("#Code").val(data);
 				editor = CodeMirror.fromTextArea(code[0], {
 				    lineNumbers: true,
-			    	mode: "javascript"
+			    	mode: "javascript",
+			    	theme: "dracula"
 				});
 				editor.on("changes", function(instance, changes){
 					eval(instance.getValue());
-					$("#One").off("click");
-					$("#One").on("click", function() {
-						return numberOne($("#One").html());
-					});
+					for(var i = 0; i < buttons.length; i++) {
+						var button = buttons[i];
+						$("#" + button.id).off("click");
+						$("#" + button.id).on("click", (function(button) {
+							return function() {
+								var fn = window[button.function];
+								return fn($("#" + button.id).html());
+							}
+						})(button));
+					}
 				});
-				$("#One").on("click", function() {
-					return numberOne($("#One").html());
-				});
+				for(var i = 0; i < buttons.length; i++) {
+					var button = buttons[i];
+					$("#" + button.id).on("click", (function(button) {
+						return function() {
+							var fn = window[button.function];
+							return fn($("#" + button.id).html());
+						}
+					})(button));
+				}
+		    });
+		    $("#Save").on("click", function(){
+				$.post( "save.php", {"data": editor.getValue()});
 		    });
 		});
 	</script>
@@ -67,9 +131,10 @@
 		<div id="Subtract" class="calcButton">-</div>
 		<div id="Decimal" class="calcButton">.</div>
 		<div id="Zero" class="calcButton">0</div>
-		<div id="Equal" class="calcButton">=</div>
+		<div id="Equals" class="calcButton">=</div>
 		<div id="Add" class="calcButton">+</div>
 	</div>
 	<textarea id="Code">Your Title Goes Here!</textarea>
+	<button id="Save">save</button>
 </body>
 </html>
